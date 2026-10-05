@@ -3,6 +3,7 @@ var TOKEN = null;
 try { TOKEN = localStorage.getItem('kp_token'); } catch(e) {}
 function setToken(t){ TOKEN = t; try { localStorage.setItem('kp_token', t); } catch(e) {} }
 function api(path, data, cb){
+  if (API.indexOf('YOUR-APP') >= 0) { cb({error: 'Set your Render URL in config.js'}); return; }
   var x = new XMLHttpRequest();
   x.open(data ? 'POST' : 'GET', API + path, true);
   x.setRequestHeader('Content-Type', 'application/json');
