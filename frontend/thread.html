@@ -1,0 +1,26 @@
+<html><head><meta charset="utf-8"><title>Thread - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap">
+<div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1 id="title">Thread</h1>
+<div id="thread">Loading...</div>
+<div id="replies"></div>
+<hr>
+Reply:<br><textarea id="body" rows="3"></textarea><br>
+<button onclick="reply()">Reply</button> <a href="board.html">Back</a>
+</div>
+<script src="config.js"></script><script src="api.js"></script>
+<script>
+var id = qs('id');
+api('/api/threads/'+id, null, function(d){
+  if(!d || !d.thread){ document.getElementById('thread').innerHTML='Not found.'; return; }
+  document.getElementById('title').innerHTML = esc(d.thread.title);
+  document.getElementById('thread').innerHTML = '<div class="msg"><b>'+esc(d.thread.author)+'</b>: '+esc(d.thread.body)+'</div>';
+  var h=''; (d.replies||[]).forEach(function(r){ h += '<div class="msg"><b>'+esc(r.author)+'</b>: '+esc(r.body)+'</div>'; });
+  document.getElementById('replies').innerHTML = h;
+});
+function reply(){
+  var b=document.getElementById('body').value; if(!b) return;
+  api('/api/threads/'+id+'/replies', {body:b}, function(){ location.reload(); });
+}
+</script>
+</div><script src="site.js"></script></body></html>

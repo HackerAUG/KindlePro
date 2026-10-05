@@ -1,0 +1,22 @@
+<html><head><meta charset="utf-8"><title>Topics - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap">
+<div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1>Topics</h1>
+<div id="list">Loading...</div>
+<hr><h2>Create a Topic</h2>
+Name:<br><input id="name"><br>About:<br><input id="desc"><br>
+<button onclick="make()">Create</button>
+</div>
+<script src="config.js"></script><script src="api.js"></script>
+<script>
+function load(){ api('/api/topics', null, function(rows){
+  var h=''; (rows||[]).forEach(function(r){ h += '<div class="msg"><a href="topic.html?id='+r.id+'"><b>'+esc(r.name)+'</b></a> <span class="small">by '+esc(r.creator)+'</span><br><span class="small">'+esc(r.description)+'</span></div>'; });
+  document.getElementById('list').innerHTML = h || '<p>No topics yet.</p>';
+});}
+function make(){
+  var n=document.getElementById('name').value; if(!n) return;
+  api('/api/topics', {name:n, description:document.getElementById('desc').value}, function(){ load(); });
+}
+load();
+</script>
+</div><script src="site.js"></script></body></html>

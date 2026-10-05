@@ -1,0 +1,4 @@
+.DS_Store
+kindlepro.db
+node_modules/
+.env

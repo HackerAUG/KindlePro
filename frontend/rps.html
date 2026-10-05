@@ -1,0 +1,16 @@
+<html><head><meta charset="utf-8"><title>RPS - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap">
+<div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1>Rock Paper Scissors</h1>
+<p id="msg"></p>
+<p><a href="#" onclick="play('rock');return false;">Rock</a> | <a href="#" onclick="play('paper');return false;">Paper</a> | <a href="#" onclick="play('scissors');return false;">Scissors</a></p>
+</div>
+<script>
+function play(c){
+  var ch=['rock','paper','scissors'], comp=ch[Math.floor(Math.random()*3)];
+  var win={rock:'scissors',paper:'rock',scissors:'paper'};
+  var r = win[c]===comp ? 'You win!' : (c===comp ? 'Draw!' : 'You lose!');
+  document.getElementById('msg').innerHTML = 'You: '+c+' vs Computer: '+comp+' - <b>'+r+'</b>';
+}
+</script>
+<script src="config.js"></script><script src="api.js"></script><script src="site.js"></script></body></html>

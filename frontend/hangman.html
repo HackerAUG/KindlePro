@@ -1,0 +1,35 @@
+<html><head><meta charset="utf-8"><title>Hangman - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap">
+<div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1>Hangman</h1>
+<p id="word" style="font-size:24px"></p>
+<p id="wrong"></p>
+<p id="letters"></p>
+<p id="status"></p>
+<button onclick="newGame()">New game</button>
+</div>
+<script>
+var WORDS=['kindle','book','page','story','chapter','author','novel','paper','shelf','library','poem','essay','writer','quote','reader'];
+var word, guessed, wrong;
+function newGame(){ word=WORDS[Math.floor(Math.random()*WORDS.length)]; guessed={}; wrong=0; render(); }
+function render(){
+  var s=''; for(var i=0;i<word.length;i++) s += guessed[word[i]]?word[i]+' ':'_ ';
+  document.getElementById('word').innerHTML = s;
+  document.getElementById('wrong').innerHTML = 'Wrong: '+wrong+'/6';
+  var l='';
+  for(var i=97;i<=122;i++){ var c=String.fromCharCode(i); if(!guessed[c]) l += '<a href="#" onclick="guess(\''+c+'\');return false;">'+c+'</a> '; }
+  document.getElementById('letters').innerHTML = l;
+}
+function guess(c){
+  guessed[c]=true;
+  if(word.indexOf(c)<0) wrong++;
+  render();
+  var win=true; for(var i=0;i<word.length;i++) if(!guessed[word[i]]) win=false;
+  var st=document.getElementById('status');
+  if(win) st.innerHTML='<b>You win!</b>';
+  else if(wrong>=6) st.innerHTML='<b>Game over!</b> Word: '+word;
+  else st.innerHTML='';
+}
+newGame();
+</script>
+<script src="config.js"></script><script src="api.js"></script><script src="site.js"></script></body></html>

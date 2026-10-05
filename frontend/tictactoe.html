@@ -1,0 +1,32 @@
+<html><head><meta charset="utf-8"><title>TicTacToe - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap">
+<div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1>Tic-Tac-Toe</h1>
+<table id="b"></table>
+<p id="msg"></p>
+<button onclick="newGame()">Restart</button>
+</div>
+<script>
+var b, turn, over;
+function newGame(){ b=['','','','','','','','','']; turn='X'; over=false; render(); }
+function render(){
+  var t='';
+  for(var i=0;i<3;i++){ t+='<tr>';
+    for(var j=0;j<3;j++){ var k=i*3+j;
+      t+='<td><a href="#" onclick="move('+k+');return false;">'+(b[k]||'_')+'</a></td>'; }
+    t+='</tr>'; }
+  document.getElementById('b').innerHTML=t;
+  document.getElementById('msg').innerHTML = over?'':'Turn: '+turn;
+}
+function move(k){
+  if(over||b[k]) return;
+  b[k]=turn;
+  var lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]], win=false;
+  for(var i=0;i<lines.length;i++){ var L=lines[i]; if(b[L[0]]&&b[L[0]]===b[L[1]]&&b[L[1]]===b[L[2]]) win=true; }
+  if(win){ document.getElementById('msg').innerHTML='<b>'+turn+' wins!</b>'; over=true; render(); return; }
+  if(b.join('').length===9){ document.getElementById('msg').innerHTML='<b>Draw!</b>'; over=true; render(); return; }
+  turn = turn==='X'?'O':'X'; render();
+}
+newGame();
+</script>
+<script src="config.js"></script><script src="api.js"></script><script src="site.js"></script></body></html>

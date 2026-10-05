@@ -1,0 +1,32 @@
+<html><head><meta charset="utf-8"><title>Admin - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap"><div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1>Admin Panel</h1>
+<div id="users">Loading...</div>
+<h2>IP History</h2>
+<div id="ips">Click "IPs" next to a user.</div>
+</div></div>
+<script src="config.js"></script><script src="api.js"></script><script src="site.js"></script>
+<script>
+function load(){
+  api('/api/admin/users', null, function(rows){
+    if (!rows || rows.error) { document.getElementById('users').innerHTML = '<p>' + esc((rows&&rows.error)||'Access denied') + '</p>'; return; }
+    var h = '<table><tr><th>User</th><th>Role</th><th>Status</th><th>Last IP</th><th></th></tr>';
+    rows.forEach(function(u){
+      h += '<tr><td>'+esc(u.username)+'</td><td>'+esc(u.role)+'</td><td>'+(u.banned?'BANNED':'ok')+'</td><td>'+esc(u.last_ip||'-')+'</td>'+
+           '<td><a href="#" onclick="toggleBan(\''+esc(u.username)+'\','+!u.banned+');return false">'+(u.banned?'Unban':'Ban')+'</a> | '+
+           '<a href="#" onclick="viewIps(\''+esc(u.username)+'\');return false">IPs</a></td></tr>';
+    });
+    document.getElementById('users').innerHTML = h + '</table>';
+  });
+}
+function toggleBan(u, banned){ api('/api/admin/ban', {username:u, banned:banned}, function(){ load(); }); }
+function viewIps(u){
+  api('/api/admin/ips?username='+encodeURIComponent(u), null, function(rows){
+    var h = '<p><b>'+esc(u)+'</b></p>';
+    (rows||[]).forEach(function(r){ h += '<div class="msg">'+esc(r.ip)+' <span class="small">'+r.ts+'</span></div>'; });
+    document.getElementById('ips').innerHTML = h || '<p>No records.</p>';
+  });
+}
+load();
+</script>
+</body></html>

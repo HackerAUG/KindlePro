@@ -1,0 +1,20 @@
+<html><head><meta charset="utf-8"><title>Guess - KindlePro</title><link rel="stylesheet" href="style.css"></head>
+<body><div id="wrap">
+<div id="side"><h2>KindlePro</h2><a href="index.html">Home</a><a href="chat.html">Chat</a><a href="topics.html">Topics</a><a href="board.html">Board</a><a href="games.html">Games</a><a href="tools.html">Tools</a><hr><div id="userbox"></div></div><div id="main">
+<h1>Guess the Number</h1>
+<p id="msg"></p>
+<input id="n" maxlength="3"> <button onclick="guess()">Guess</button>
+<button onclick="newGame()">New game</button>
+</div>
+<script>
+var num, tries;
+function newGame(){ num=1+Math.floor(Math.random()*50); tries=0; document.getElementById('msg').innerHTML='Guess a number 1-50.'; }
+function guess(){
+  var v=parseInt(document.getElementById('n').value,10); tries++;
+  var m=document.getElementById('msg');
+  if(v===num) m.innerHTML='<b>Correct! It was '+num+'. Tries: '+tries+'</b>';
+  else m.innerHTML = v>num?'Too high! Tries: '+tries:'Too low! Tries: '+tries;
+}
+newGame();
+</script>
+<script src="config.js"></script><script src="api.js"></script><script src="site.js"></script></body></html>
